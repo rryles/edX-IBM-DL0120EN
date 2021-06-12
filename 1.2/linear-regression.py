@@ -50,6 +50,21 @@ for epoch in range(training_epochs):
         if epoch % 5 == 0:
             train_data.append([a, b])
 
-# plot loss values
-plt.plot(loss_values, 'ro')
+# Display final model vs training data
+cr, cg, cb = (1.0, 1.0, 0.0)
+for f in train_data:
+    cb += 1.0 / len(train_data)
+    cg -= 1.0 / len(train_data)
+    if cb > 1.0: cb = 1.0
+    if cg < 0.0: cg = 0.0
+    [a, b] = f
+    f_y = np.vectorize(lambda x: a*x + b)(train_x)
+    line = plt.plot(train_x, f_y)
+    plt.setp(line, color=(cr,cg,cb))
+
+plt.plot(train_x, train_y, 'ro')
+green_line = mpatches.Patch(color='red', label='Data Points')
+
+plt.legend(handles=[green_line])
+
 plt.show()
